@@ -6,6 +6,7 @@ module.exports = function (grunt) {
     styles: 'ui-src/styles',
     modules: 'ui-src/modules',
     bower_path: 'bower_components',
+    node_path: 'node_modules',
     distribution: {
       root: 'dist',
       assets: '<%= globalConfig.distribution.root %>/assets',
@@ -158,7 +159,7 @@ module.exports = function (grunt) {
             {
               expand: true,
               flatten: true,
-              src: ['node_modules/requirejs/require.js'],
+              src: ['<%= globalConfig.node_path %>/requirejs/require.js'],
               dest: 'ui-src/',
               filter: 'isFile'
             },
