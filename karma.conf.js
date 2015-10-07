@@ -16,10 +16,10 @@ module.exports = function (config) {
     // list of files / patterns to load in the browser
     files: [
       {pattern: 'ui-src/modules/**/*.js', included: false},
-      {pattern: 'test/**/*.spec.js', included: false},
+      {pattern: 'ui-test/**/*.spec.js', included: false},
       {pattern: 'bower_components/**/*.js', included: false},
       {pattern: 'node_modules/angular-*/angular-*.js', included: false},
-      'test/test-main.js'
+      'ui-test/test-main.js'
     ],
 
 

@@ -77,7 +77,7 @@ module.exports = function (grunt) {
           ]
         },
         test: {
-          src: ['test/**/*.js']
+          src: ['ui-test/**/*.js']
         }
       },
       customize_bootstrap: {

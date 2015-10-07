@@ -2,7 +2,10 @@
 
 Very basic project template for starting a UI project using RequireJS and AngularJS. The template also contains samples for modules and tests.
 
-The project comes with Twitter Bootstrap and Font-Awesome for convenience.  
+Folder names `ui-src` and `ui-test` are named as such to avoid confusion when placing the project alongside other source codes. An example of this is when placing these files on the same level as the Java `src` folder. Ideally, when performing `grunt release`, the distribution files will be placed somewhere that the Java source code can immediately access.
+The reason for this kind of placement is because Grunt cannot write files outside of the project root's folder (i.e. the ui project is separate from the Java project). Of course, this is not a problem if the developer opts to manually copy the contents of the `dist` folder. 
+
+The template also includes Twitter Bootstrap and Font-Awesome for convenience. 
 ## Requirements ##
 * Grunt CLI
 * NodeJS
@@ -27,5 +30,8 @@ The project comes with Twitter Bootstrap and Font-Awesome for convenience.
     * uglifies `main.js` and its dependencies into a `main.js` in `dist`.
     * uglifies all CSS files into one using **usemin** into `dist/styles`.
     * copy all html files, images, and fonts into their relative paths from `app` folder into `dist`.
+
+## Notes ##
+The `dist` folder is the default location where the distribution files are placed. This can be changed in the `globalConfig` object of `Gruntfile.js`.
 
 
