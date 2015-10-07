@@ -15,7 +15,7 @@ module.exports = function (config) {
 
     // list of files / patterns to load in the browser
     files: [
-      {pattern: 'app/modules/**/*.js', included: false},
+      {pattern: 'ui-src/modules/**/*.js', included: false},
       {pattern: 'test/**/*.spec.js', included: false},
       {pattern: 'bower_components/**/*.js', included: false},
       {pattern: 'node_modules/angular-*/angular-*.js', included: false},
@@ -29,9 +29,9 @@ module.exports = function (config) {
       'bower_components/**/*spec.js',
       'node_modules/**/*Spec.js',
       'node_modules/**/*spec.js',
-      'app/modules/*-main.js',
-      'app/modules/main.js',
-      'app/modules/require.js'
+      'ui-src/modules/*-main.js',
+      'ui-src/modules/main.js',
+      'ui-src/modules/require.js'
     ],
 
 

@@ -55,7 +55,7 @@ require.config({
     },
   },
 
-  baseUrl: '/base/app/modules',
+  baseUrl: '/base/ui-src/modules',
 
   // dynamically load all test files
   deps: allTestFiles,

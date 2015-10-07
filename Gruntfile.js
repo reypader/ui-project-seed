@@ -1,10 +1,10 @@
 module.exports = function (grunt) {
 
   var globalConfig = {
-    assets: 'app/assets',
-    fonts: 'app/fonts',
-    styles: 'app/styles',
-    modules: 'app/modules',
+    assets: 'ui-src/assets',
+    fonts: 'ui-src/fonts',
+    styles: 'ui-src/styles',
+    modules: 'ui-src/modules',
     bower_path: 'bower_components',
     distribution: {
       root: 'dist',
@@ -18,7 +18,7 @@ module.exports = function (grunt) {
       globalConfig: globalConfig,
       clean: [
         '.tmp',
-        'app/require.js',
+        'ui-src/require.js',
         '<%= globalConfig.distribution.root %>',
         '<%= globalConfig.styles %>/compiled'
       ],
@@ -124,7 +124,7 @@ module.exports = function (grunt) {
           files: [
             {
               expand: true,
-              cwd: 'app',
+              cwd: 'ui-src',
               src: ['**/*.html'],
               dest: '<%= globalConfig.distribution.root %>/',
               filter: 'isFile'
@@ -135,7 +135,7 @@ module.exports = function (grunt) {
           files: [
             {
               expand: true,
-              cwd: 'app',
+              cwd: 'ui-src',
               src: ['assets/**', 'fonts/**'],
               dest: '<%= globalConfig.distribution.root %>/',
               filter: 'isFile'
@@ -146,7 +146,7 @@ module.exports = function (grunt) {
           files: [
             {
               expand: true,
-              cwd: 'app',
+              cwd: 'ui-src',
               src: ['*.js'],
               dest: '<%= globalConfig.distribution.root %>/',
               filter: 'isFile'
@@ -159,7 +159,7 @@ module.exports = function (grunt) {
               expand: true,
               flatten: true,
               src: ['node_modules/requirejs/require.js'],
-              dest: 'app/',
+              dest: 'ui-src/',
               filter: 'isFile'
             },
             {
@@ -180,7 +180,7 @@ module.exports = function (grunt) {
         }
       },
       useminPrepare: {
-        html: ['app/**/*.html'],
+        html: ['ui-src/**/*.html'],
         options: {
           dest: '<%= globalConfig.distribution.root %>'
         }
@@ -221,7 +221,7 @@ module.exports = function (grunt) {
                   '/bower_components',
                   connect.static('./bower_components')
                 ),
-                connect.static('./app')
+                connect.static('./ui-src')
               ];
             }
           }
