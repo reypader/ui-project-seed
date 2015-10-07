@@ -1,59 +1,91 @@
 module.exports = function (grunt) {
 
   var globalConfig = {
-    images: 'app/images',
-    css: 'app/styles',
+    assets: 'app/assets',
     fonts: 'app/fonts',
-    scripts: 'app/modules',
+    styles: 'app/styles',
+    modules: 'app/modules',
     bower_path: 'bower_components',
-    distribution: 'dist',
+    distribution: {
+      root: 'dist',
+      assets: '<%= globalConfig.distribution.root %>/assets',
+      styles: '<%= globalConfig.distribution.root %>/styles',
+      modules: '<%= globalConfig.distribution.root %>/modules'
+    }
   };
 
   grunt.initConfig({
       globalConfig: globalConfig,
       clean: [
-        '<%= globalConfig.distribution %>/fonts',
-        '<%= globalConfig.distribution %>/images',
-        '<%= globalConfig.distribution %>/modules',
-        '<%= globalConfig.distribution %>/styles',
-        '<%= globalConfig.distribution %>/*.{js,html,css}',
         '.tmp',
-        '<%= globalConfig.fonts %>/*.*',
         'app/require.js',
-        '<%= globalConfig.css %>/compiled-bootstrap',
-        '<%= globalConfig.css %>/*.*'
+        '<%= globalConfig.distribution.root %>',
+        '<%= globalConfig.styles %>/compiled'
       ],
       jshint: {
         options: {
-          curly: true,
-          eqeqeq: true,
-          immed: true,
-          latedef: true,
-          newcap: true,
-          noarg: true,
-          sub: true,
-          undef: true,
-          unused: true,
-          boss: true,
-          eqnull: true,
-          globals: {}
+          'bitwise': true,     // true: Prohibit bitwise operators (&, |, ^, etc.)
+          'camelcase': false,    // true: Identifiers must be in camelCase
+          'curly': true,     // true: Require {} for every new block or scope
+          'eqeqeq': true,     // true: Require triple equals (===) for comparison
+          'forin': true,     // true: Require filtering for..in loops with obj.hasOwnProperty()
+          'freeze': true,     // true: prohibits overwriting prototypes of native objects such as Array, Date etc.
+          'immed': true,    // true: Require immediate invocations to be wrapped in parens e.g. `(function () { } ());`
+          'indent': 2,        // {int} Number of spaces to use for indentation
+          'latedef': false,    // true: Require variables/functions to be defined before being used
+          'newcap': true,    // true: Require capitalization of all constructor functions e.g. `new F()`
+          'noarg': true,     // true: Prohibit use of `arguments.caller` and `arguments.callee`
+          'noempty': true,     // true: Prohibit use of empty blocks
+          'nonbsp': true,     // true: Prohibit 'non-breaking whitespace' characters.
+          'nonew': true,    // true: Prohibit use of constructors for side-effects (without assignment)
+          'plusplus': false,    // true: Prohibit use of `++` and `--`
+          'quotmark': 'single',    // Quotation mark consistency:
+          //   false    : do nothing (default)
+          //   true     : ensure whatever is used is consistent
+          //   'single' : require single quotes
+          //   'double' : require double quotes
+          'undef': true,     // true: Require all non-global variables to be declared (prevents global leaks)
+          'unused': true,     // Unused variables:
+                              //   true     : all variables, last function parameter
+                              //   'vars'   : all variables only
+                              //   'strict' : all variables, all function parameters
+          'strict': true,     // true: Requires all functions run in ES5 Strict Mode
+          'maxparams': false,    // {int} Max number of formal params allowed per function
+          'maxdepth': false,    // {int} Max depth of nested blocks (within functions)
+          'maxstatements': false,    // {int} Max number statements per function
+          'maxcomplexity': false,    // {int} Max cyclomatic complexity per function
+          'maxlen': false,    // {int} Max number of characters per line
+          //'varstmt': false,    // true: Disallow any var statements. Only `let` and `const` are allowed.
+          ///
+          'validthis': true,
+          'sub': true,
+          'boss': true,
+          'eqnull': true,
+          'jasmine':true,
+          'globals': {
+            'CryptoJS': true,
+            'define': true,
+            'require': true,
+            'console': true,
+            'document': true,
+            'window': true
+          }
         },
         all: {
           src: [
-            'Gruntfile.js',
-            '<%= globalConfig.scripts %>/**/*.js'
+            '<%= globalConfig.modules %>/**/*.js'
           ]
         },
         test: {
-          src: ['test/spec/**/*.js']
+          src: ['test/**/*.js']
         }
       },
       customize_bootstrap: {
         task: {
           options: {
             bootstrapPath: '<%= globalConfig.bower_path %>/bootstrap',
-            src: '<%= globalConfig.css %>/customized-bootstrap-less',
-            dest: '<%= globalConfig.css %>/compiled-bootstrap',
+            src: '<%= globalConfig.styles %>/customized-bootstrap-less',
+            dest: '<%= globalConfig.styles %>/compiled'
           }
         }
       },
@@ -66,38 +98,18 @@ module.exports = function (grunt) {
       requirejs: {
         main: {
           options: {
-            baseUrl: '<%= globalConfig.scripts %>',
-            mainConfigFile: '<%= globalConfig.scripts %>/main.js',
+            baseUrl: '<%= globalConfig.modules %>',
+            mainConfigFile: '<%= globalConfig.modules %>/main.js',
             name: 'main',
-            out: '<%= globalConfig.distribution %>/modules/main.js',
-            optimize: "uglify",
-            preserveLicenseComments: false
-          }
-        },
-        signin: {
-          options: {
-            baseUrl: '<%= globalConfig.scripts %>',
-            mainConfigFile: '<%= globalConfig.scripts %>/signin-main.js',
-            name: 'signin-main',
-            out: '<%= globalConfig.distribution %>/modules/signin-main.js',
-            optimize: "uglify",
+            out: '<%= globalConfig.distribution.modules %>/main.js',
+            optimize: 'uglify',
             preserveLicenseComments: false
           }
         }
       },
       bowerRequirejs: {
         main: {
-          rjsConfig: '<%= globalConfig.scripts %>/main.js',
-          options: {
-            transitive: true,
-            exclude: [
-              'requirejs-plugins',
-              'cryptojslib'
-            ]
-          }
-        },
-        signin: {
-          rjsConfig: '<%= globalConfig.scripts %>/signin-main.js',
+          rjsConfig: '<%= globalConfig.modules %>/main.js',
           options: {
             transitive: true,
             exclude: [
@@ -114,18 +126,18 @@ module.exports = function (grunt) {
               expand: true,
               cwd: 'app',
               src: ['**/*.html'],
-              dest: '<%= globalConfig.distribution %>/',
+              dest: '<%= globalConfig.distribution.root %>/',
               filter: 'isFile'
             }
           ]
         },
-        statics: {
+        assets: {
           files: [
             {
               expand: true,
               cwd: 'app',
-              src: ['fonts/**', 'images/**'],
-              dest: '<%= globalConfig.distribution %>/',
+              src: ['assets/**', 'fonts/**'],
+              dest: '<%= globalConfig.distribution.root %>/',
               filter: 'isFile'
             }
           ]
@@ -136,7 +148,7 @@ module.exports = function (grunt) {
               expand: true,
               cwd: 'app',
               src: ['*.js'],
-              dest: '<%= globalConfig.distribution %>/',
+              dest: '<%= globalConfig.distribution.root %>/',
               filter: 'isFile'
             }
           ]
@@ -170,16 +182,16 @@ module.exports = function (grunt) {
       useminPrepare: {
         html: ['app/**/*.html'],
         options: {
-          dest: '<%= globalConfig.distribution %>'
+          dest: '<%= globalConfig.distribution.root %>'
         }
       },
       usemin: {
-        html: ['<%= globalConfig.distribution %>/**/*.html']
+        html: ['<%= globalConfig.distribution.root %>/**/*.html']
       },
       filerev: {
         dist: {
           src: [
-            '<%= globalConfig.distribution %>/styles/**/*.css',
+            '<%= globalConfig.distribution.styles %>/**/*.css',
           ]
         }
       },
@@ -226,12 +238,11 @@ module.exports = function (grunt) {
             }
           },
           files: [
-            'app/modules/**/*.js',
-            'app/styles/raw/*.css',
-            'app/styles/customized-bootstrap-less/*.less',
+            '<%= globalConfig.modules %>/**/*.js',
+            '<%= globalConfig.styles %>/**/*.{css,less}',
             'bower.json'
           ],
-          tasks: ['bowerRequirejs:main', 'bowerRequirejs:signin', 'test', 'compile-style']
+          tasks: ['bowerRequirejs', 'test', 'compile-style']
         }
       }
     }
@@ -261,16 +272,17 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('test', [
+    'jshint',
     'init',
     'karma'
   ]);
 
   grunt.registerTask('release', [
     'test',
-    'requirejs',
     'copy:pages',
+    'requirejs',
     'copy:js',
-    'copy:statics',
+    'copy:assets',
     'build-pages'
   ]);
 
@@ -281,8 +293,7 @@ module.exports = function (grunt) {
   grunt.registerTask('init', [
     'clean',
     'copy:init',
-    'bowerRequirejs:main',
-    'bowerRequirejs:signin',
+    'bowerRequirejs',
     'compile-style'
   ]);
 

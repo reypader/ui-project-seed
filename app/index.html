@@ -6,7 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- build:css styles/index.css -->
+  <link rel="stylesheet" type="text/css" href="../bower_components/font-awesome/css/font-awesome.min.css"/>
   <link rel="stylesheet" type="text/css" href="styles/compiled-bootstrap/bootstrap.css"/>
+  <link rel="stylesheet" type="text/css" href="styles/main.css"/>
   <!-- endbuild -->
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -18,11 +20,13 @@
   <script data-main="modules/main"
           src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.20/require.min.js"></script>
 </head>
-<body>
+<body ng-cloak>
 <div ng-controller="HomeController as hc">
   {{hc.message}}
   <br/>
   {{message}}
+  <br/>
+  <img src="assets/images/Octocat.png">
 </div>
 <script src="ie10-fix.js"></script>
 </body>

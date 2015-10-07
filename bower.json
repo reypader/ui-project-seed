@@ -5,7 +5,8 @@
     "angular": "~1.4.3",
     "bootstrap": "~3.3.5",
     "requirejs-plugins": "~1.0.3",
-    "cryptojslib": "~3.1.2"
+    "cryptojslib": "~3.1.2",
+    "font-awesome": "~4.4.0"
   },
   "scripts": {
     "postinstall": "grunt init"
